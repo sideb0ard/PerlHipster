@@ -12,6 +12,7 @@ if ((scalar @cleannumz) > 1) {
 
 sub splitzort {
   my @numz = @_;
+  print "MA NUMZ: @numz\n";
   if ((scalar @numz) <= 1) {
     return @numz;
   }
@@ -19,6 +20,7 @@ sub splitzort {
   # recursively call the split
   my @left = splitzort(@leftarray);
   my @right = splitzort(@numz);
+  print "MA lEFT, RIHGT @left, @right\n";
   # * conquer part!
   return merge(\@left,\@right);
 }
