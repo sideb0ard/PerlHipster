@@ -8,22 +8,56 @@ my @sortedpointz1 = sortz( 'x', \@pointz );
 my @sortedpointz2 = sortz( 'y', \@pointz );
 
 my $minseen;
+my @closestpoints;
 
 closestpair(@sortedpointz1);
 
+linearclosestpair(@sortedpointz1);
+print "RETUNRNAL\nMinseen = $minseen, with $closestpoints[0][0],$closestpoints[0][1] and $closestpoints[1][0],$closestpoints[1][1]\n";
+
 sub closestpair {
   my @a = @_;
+  if ((scalar @a) < 2) {
+    return 0;
+  } elsif ((scalar @a) == 2) {
+    distance(@a);
+  }
+  my @leftarray = splice @a, 0, floor((scalar @a) /2);
+  # recursively call the split
+  my @left = closestpair(@leftarray);
+  my @right = closestpair(@a);
+  # * conquer part!
+  #return merge($sortr, \@left,\@right);
+}
+
+sub linearclosestpair {
+  my @a = @_;
   foreach my $p (@a) {
-    my $px = @{$p}[0];
-    my $py = @{$p}[1];
-    foreach my $q (@sortedpointz1) {
+    foreach my $q (@a) {
       next if $p == $q;
-      my $qx = @{$q}[0];
-      my $qy = @{$q}[1];
-      my $distance = sqrt(($px - $qx)**2 + ($py - $qy)**2);
-      print "Distance between $px,$py and $qx,$qy - $distance\n";
+      distance($p,$q);
+      #my $qx = @{$q}[0];
+      #my $qy = @{$q}[1];
+      #my $distance = sqrt(($px - $qx)**2 + ($py - $qy)**2);
+      #print "Distance between $px,$py and $qx,$qy - $distance\n";
     }
     print "\n";
+  }
+}
+
+sub distance {
+  my @p = @{$_[0]};
+  my @q = @{$_[1]};
+  my $px = $p[0];
+  my $py = $p[1];
+  my $qx = $q[0];
+  my $qy = $q[1];
+  print "IN DISTANCE with $px, $py, $qx and $qy\n";
+  my $distance = sqrt(($px - $qx)**2 + ($py - $qy)**2);
+  if (!defined $minseen  || ($distance < $minseen)) {
+    $minseen = $distance;
+    $closestpoints[0] = [@p];
+    $closestpoints[1] = [@q];
   }
 }
 
