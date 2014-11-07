@@ -22,7 +22,7 @@ sub quicksort {
     my $pivotIndex = int(rand($r - $l) + $l);
     #my $pivotIndex = 0;
     my $pivot = $cleannumz[$pivotIndex];
-    # move Pivot to first place..
+    # move Pivot to first/leftmost place..
     my $tempHolder = $cleannumz[$l];
     $cleannumz[$l] = $pivot;
     $cleannumz[$pivotIndex] = $tempHolder;
@@ -37,6 +37,7 @@ sub quicksort {
         $i++;
       }
     }
+    # move pivot back into proper place
     $tempHolder = $cleannumz[$i - 1];
     $cleannumz[$i - 1] = $cleannumz[$l];
     $cleannumz[$l] = $tempHolder;
